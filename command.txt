@@ -1,0 +1,110 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    command.txt                                        :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: gjacinta <gjacinta@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/12/15 17:17:53 by gjacinta          #+#    #+#              #
+#    Updated: 2021/12/15 17:17:57 by gjacinta         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+#1. login as host:
+ 	$ su - (or su user_name)
+
+#2. check update:
+	$ apt-get update -y
+
+#3. make upgrade:
+	$ apt-get upgrade -y
+
+#4. install sudo:
+	$ apt install sudo
+
+#5. Add user into sudo group:
+	$ usermod -aG sudo "your_username"
+
+#6. Check if user is in sudo group:
+	$ getent group sudo
+
+#7. Privilege as a host:
+	-open sudoers file : $ sudo visudo
+	-add line into file : "yser_name" ALL=(ALL) ALL
+
+#8. change LVM size:
+	$ lvextend -l +100%FREE /dev/lVMgr/LVM 			### all free memory
+	$ lvextend -L500G  							### up to 500GB
+	$ lvextend -L+10G								### add 10GB
+	$ lvreduce -L-10G 							### reduce for 10GB
+
+#9. Install SSH:
+	$ sudo apt-get update
+	$ sudo apt install opens-server
+
+#10. change Port to 4242:
+	$ sudo nano /etc/ssh/sshd_config
+	- in line Port 22 change to 4242
+	$ sudo grep Port /etc/ssh/sshd_config  		### check changes
+	$ sudo service ssh restart					### restart
+	$ sudo systemctl status ssh 				### check status
+
+#11. install UFW (Uncomplicated Firewall):
+	apt-get install ufw  						### install
+	sudo ufw enable 							### enable (switch on)
+	sudo ufw status numbered 					### check status
+
+#11. Connect to VM via terminal:
+	$ ssh user@127.0.0.1 -p 4242
+
+#12. Passwd policy:
+	$ sudo apt-get install libpam-pwquality		### get package
+	$ sudo nano (vim) /etc/pam.d/common-password	### go to file for config
+	### in lin password [success=]...  add new param
+	ucredit=-1 							### uppercase char
+	dcredit=-1								### int
+	lcredit=-1								### lowercase char
+	maxrepeat=-1							### num of chance
+	enforce_for_root							### accept rules for root pass
+	usercheck=0							### exclude username fm password
+#13. Password expiration:
+	-sudo nano /etc/login.defs					### go to config file
+	add changes:
+		PASS_MAX_DAYS 30
+		PASS_MIN_DAYS 2
+		PASS_WARN_AGE 7
+
+#14. Add user group:
+	$ sudo grouped user42
+
+#15. Check groups:
+	$ getent group
+
+#16. Check all local users:
+	$ cut -d: -f1 /etc/passwd
+
+#17. Add new user:
+	$ sudo adducer user_name
+
+#18. Assign user into group:
+	$ sudo usermod -aG user42 user_name	
+
+#19. Check groups user:
+	$ getent group user42 
+
+#20. Change hostname:
+	$ hostnamectl set-hostname new_name
+
+#21. configure Crontab:
+	$ sudo apt-get update -y
+	$ sudo apt-get install -y net-tools
+
+	in crontab file:
+	$ sudo crontab -u root -e					### go to crontab config
+		set a time and operation:
+		*/10 * * * * /path/to/file  			### where */10 mean - repeat every ten minutes 
+		@reboot /path/to/file					### repeat each reboot 			
+										### *(min) *(hour) *(day) *(month) *(day of week) 
+
+#22. Output signature:
+	$ perl -e | shasum	
